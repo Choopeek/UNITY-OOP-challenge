@@ -12,7 +12,7 @@ using UnityEditor;
 
 public class MainMenuManager : MonoBehaviour
 {
-    public DataTranfer dataTransfer; //gObject to pass the info between scenes
+    public DataTransfer dataTransfer; //gObject to pass the info between scenes
     public string playerName;
     public GameObject playerNameInputField;
     public TMP_Text textDisplayed;
@@ -20,7 +20,7 @@ public class MainMenuManager : MonoBehaviour
 
     private void Start()
     {
-        dataTransfer = GameObject.Find("DataTransfer").GetComponent<DataTranfer>();
+        dataTransfer = GameObject.Find("DataTransfer").GetComponent<DataTransfer>();
     }
     public void StorePlayerName()
     {

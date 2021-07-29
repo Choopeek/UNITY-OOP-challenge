@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class MainManager : MonoBehaviour
 {
@@ -18,10 +19,17 @@ public class MainManager : MonoBehaviour
     
     private bool m_GameOver = false;
 
-    
+    public GameObject bestScoreText;
+    public DataTransfer dataTransfer;
+    private int bestScore;
+
+
     // Start is called before the first frame update
     void Start()
     {
+        dataTransfer = GameObject.Find("DataTransfer").GetComponent<DataTransfer>();
+        dataTransfer.LoadScore();
+
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         
@@ -36,6 +44,7 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed.AddListener(AddPoint);
             }
         }
+        BestScore();
     }
 
     private void Update()
@@ -70,7 +79,25 @@ public class MainManager : MonoBehaviour
 
     public void GameOver()
     {
+        BestScore();
         m_GameOver = true;
         GameOverText.SetActive(true);
+    }
+
+    public void BestScore()
+    {
+        if (dataTransfer.bestScore <= m_Points)
+        {
+            dataTransfer.bestScore = m_Points;
+            dataTransfer.playerNameBest = dataTransfer.playerName;
+            bestScoreText.GetComponent<Text>().text = "Best Score : " + dataTransfer.playerName + " : " + dataTransfer.bestScore;
+            dataTransfer.SaveScore();
+        }
+        else
+        {
+            bestScoreText.GetComponent<Text>().text = "Best Score : " + dataTransfer.playerNameBest + " : " + dataTransfer.bestScore;
+        }
+        
+
     }
 }
